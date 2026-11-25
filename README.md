@@ -31,11 +31,15 @@ Por cada frame STFT (ventana Hann, 75 % de solapamiento):
 
 ## Compilar para Windows
 
-### Opción A: sin instalar nada (GitHub Actions) — recomendada
+### Descarga directa
 
-1. Creá un repositorio en GitHub y subí esta carpeta completa.
+La última versión compilada está en **[Releases](https://github.com/leopvr/pvr-voicemorp/releases/latest)**. Para publicar una nueva versión, creá un tag `v1.0.1`, `v1.1.0`, etc. y el Release se genera solo.
+
+### Opción A: sin instalar nada (GitHub Actions)
+
+1. Cada `push` a este repo dispara la compilación.
 2. En la pestaña **Actions** se ejecuta solo el workflow "Compilar para Windows" (tarda ~10 minutos).
-3. Al terminar, bajá el artefacto **PVR-VoiceMorph-Windows**. Adentro está `PVR VoiceMorph.vst3` y el `.exe` standalone.
+3. Al terminar, bajá el artefacto **PVR-VoiceMorph-Windows**. Adentro están los zips del `.vst3` y del `.exe` standalone.
 
 ### Opción B: en tu PC
 

@@ -2,7 +2,12 @@ name: Compilar para Windows
 
 on:
   push:
+    branches: ["**"]
+    tags: ["v*"]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   windows:
@@ -21,10 +26,30 @@ jobs:
       - name: Compilar VST3 y Standalone
         run: cmake --build build --config Release --target PVRVoiceMorph_VST3 PVRVoiceMorph_Standalone
 
-      - name: Subir el plugin
+      - name: Empaquetar
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Compress-Archive -Path "build/PVRVoiceMorph_artefacts/Release/VST3/PVR VoiceMorph.vst3" -DestinationPath "dist/PVR-VoiceMorph-VST3-Windows.zip"
+          Compress-Archive -Path "build/PVRVoiceMorph_artefacts/Release/Standalone/*" -DestinationPath "dist/PVR-VoiceMorph-Standalone-Windows.zip"
+
+      - name: Subir el plugin (artefacto)
         uses: actions/upload-artifact@v4
         with:
           name: PVR-VoiceMorph-Windows
-          path: |
-            build/PVRVoiceMorph_artefacts/Release/VST3
-            build/PVRVoiceMorph_artefacts/Release/Standalone
+          path: dist/*.zip
+
+      - name: Publicar Release (solo en tags v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: PVR VoiceMorph ${{ github.ref_name }}
+          files: dist/*.zip
+          body: |
+            **Instalación**
+            1. Descomprimí `PVR-VoiceMorph-VST3-Windows.zip`.
+            2. Copiá la carpeta `PVR VoiceMorph.vst3` a `C:\Program Files\Common Files\VST3\`.
+            3. En Ableton: Preferencias → Plug-Ins → activá "Use VST3 Plug-In System Folders" → Rescan.
+
+            La versión standalone (`.exe`) sirve para usarlo con el micrófono sin abrir un DAW.
+            Guía completa en el README.
