@@ -33,7 +33,7 @@ Por cada frame STFT (ventana Hann, 75 % de solapamiento):
 
 ### Descarga directa
 
-La última versión compilada está en **[Releases](https://github.com/leopvr/pvr-voicemorp/releases/latest)**. Para publicar una nueva versión, creá un tag `v1.0.1`, `v1.1.0`, etc. y el Release se genera solo.
+La última versión compilada está en **[Releases](https://github.com/leopvr/pvr-voicemorp/releases/latest)**. Para publicar una versión nueva, cambiá el número en `project(PVRVoiceMorph VERSION 1.0.0)` dentro de `CMakeLists.txt` y subí el cambio a `main`: el Release se genera solo.
 
 ### Opción A: sin instalar nada (GitHub Actions)
 
